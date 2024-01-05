@@ -1,13 +1,13 @@
 from database.connection import Database
 from fastapi import APIRouter, HTTPException, status
 from models.users import User, UserSignIn
+from typing import List
 
 user_router = APIRouter(
     tags=["User"],
 )
 
 user_database = Database(User)
-
 
 @user_router.post("/signup")
 async def sign_user_up(user: User) -> dict:
@@ -22,7 +22,6 @@ async def sign_user_up(user: User) -> dict:
     return {
         "message": "User created successfully"
     }
-
 
 @user_router.post("/signin")
 async def sign_user_in(user: UserSignIn) -> dict:
@@ -41,3 +40,8 @@ async def sign_user_in(user: UserSignIn) -> dict:
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid details passed."
     )
+
+@user_router.get('/', response_model=List[User])
+async def get_all_users() -> List[User]:
+    users = await user_database.get_all()
+    return users

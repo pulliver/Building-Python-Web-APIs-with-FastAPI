@@ -3,14 +3,12 @@ from typing import Optional, List
 from beanie import Document
 from pydantic import BaseModel
 
-
 class Event(Document):
     title: str
     image: str
     description: str
     tags: List[str]
     location: str
-
     class Config:
         schema_extra = {
             "example": {
@@ -21,10 +19,8 @@ class Event(Document):
                 "location": "Google Meet"
             }
         }
-
     class Settings:
         name = "events"
-
 
 class EventUpdate(BaseModel):
     title: Optional[str]
@@ -32,7 +28,6 @@ class EventUpdate(BaseModel):
     description: Optional[str]
     tags: Optional[List[str]]
     location: Optional[str]
-
     class Config:
         schema_extra = {
             "example": {
